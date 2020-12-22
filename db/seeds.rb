@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+donny = Driver.create(first_name: "Donny", last_name: "Don")
+james = Client.create(first_name: "James", last_name: "Don", pay_rate: 50.0)
+punchIn = Punch.create(client_id: 1, clock_in: Time.now)
+
+donny.clients << james
+
+james.punches << punchIn
