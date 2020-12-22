@@ -8,7 +8,7 @@ class ClientsController < ApplicationController
         james = Client.find_by_id(params[:id])
         # render json: james {id: params[:id]}
         render json: james 
-        # render json: james, include: [:chat, :guest]
+        # render json: james, include: [:chat, :guest
     end     
 
     def new
