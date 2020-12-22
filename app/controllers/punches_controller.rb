@@ -1,5 +1,15 @@
 class PunchesController < ApplicationController
 
+    def index
+        punches = Punch.all
+        render json: punches
+    end
+
+    def show
+        james = Punch.find_by_id(params[:id])
+        render json: james
+    end
+
     def new
         # need to be logged in with admin 
         @punch = Punch.new
