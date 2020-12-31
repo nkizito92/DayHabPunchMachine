@@ -1,7 +1,8 @@
 class ClientsController < ApplicationController
+    before_action :sleeping, only: [:destroy, :create]
     def index
         clients = Client.all
-        render json: clients, include: [:punches]
+        render json: clients, include: [:punches, :driver]
     end
     
     def show
@@ -11,28 +12,32 @@ class ClientsController < ApplicationController
         # render json: james, include: [:chat, :guest]
     end     
 
-    def new
-        # need to be logged in with admin 
-        comment = Comment.find_by_id(params[:id])
-        guest = Guest.find_by_id(comment.guest_id)
-        guest.delete
-        comment.delete 
-        render json: {id: params[:id]}
-    end 
-
     def create
         # need to be logged in with admin 
+        client = Client.create(full_name: params[:full_name], pay_rate: params[:pay_rate])
+
+        render json: client, include: [:driver, :punches]
     end
 
     def edit
         # need to be logged in with admin 
+        client = Client.find_by_id(params[:id])
+        render json: client, include: [:driver, :punches]
     end 
-
-    def update
-        # need to be logged in with admin 
-    end
 
     def delete
         # need to be logged in with admin 
+        client = Client.find_by_id(params[:id])
+        client.delete
+        render json: client, include: [:driver, :punches]
     end 
+    
+    private
+    def client_params
+        params.require("client").permit(:id, :full_name, :pay_rate, :driver_id)
+    end
+    
+    def sleeping
+        sleep(2.3)
+    end
 end
