@@ -1,5 +1,5 @@
 class ClientsController < ApplicationController
-    before_action :sleeping, only: [:destroy, :create]
+    before_action :sleeping, only: [:destroy, :create, :update]
     def index
         clients = Client.all
         render json: clients, include: [:punches, :driver]
@@ -13,19 +13,24 @@ class ClientsController < ApplicationController
 
     def create
         # need to be logged in with admin 
-        client = Client.create(client_params)
+        driver = Driver.find_by_id(client_params[:driver_id])
+        client = driver.clients.build(client_params)
+        client.save
         render json: client, include: [:driver, :punches]
     end
 
-    def edit
+    def update
         # need to be logged in with admin 
-        client = Client.find_by_id(params[:id])
+        client = Client.find_by_id(client_params[:id])
+        client.update(full_name: client_params[:full_name], pay_rate: client_params[:pay_rate], driver_id: client_params[:driver_id])
         render json: client, include: [:driver, :punches]
     end 
 
-    def delete
+    def destroy
         # need to be logged in with admin 
         client = Client.find_by_id(params[:id])
+        client.punches.destroy_all
+        client.save
         client.delete
         render json: client, include: [:driver, :punches]
     end 
