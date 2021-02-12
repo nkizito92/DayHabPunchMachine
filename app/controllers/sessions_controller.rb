@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
     def create
-        @user = User.find_by(username: session_params[:username])
+        @user = User.find_by(username: session_params[:username].downcase)
         if @user && @user.authenticate(session_params[:password])
           login!
           render json: {
@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
               error: ""
             }
           }
-          sleep(2.3)
         else
           render json: { 
             status: 401,
@@ -20,8 +19,8 @@ class SessionsController < ApplicationController
               error: 'Wrong password please try again!'
             }
           }
-          sleep(2.3)
         end
+        sleep(2.3)
     end
 
     def is_logged_in?
