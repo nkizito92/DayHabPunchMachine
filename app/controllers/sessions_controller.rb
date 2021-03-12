@@ -37,6 +37,20 @@ class SessionsController < ApplicationController
         end
     end
 
+    def update 
+      user = User.find_by(username: user_params[:username])
+      byebug
+      if user && user.authenticate(user_params[:old_password])
+          user.update(user_params)
+      end 
+      if user.authenticate(user_params[:password_confirmation]) && user.authenticate(user_params[:password])
+          render json: {user: user, message: {success: "#{user.username} Password Updated!!", error: ""}}, include: [:drivers]
+      else 
+          render json: {message: {success: "", error: "Password do not match try again!"}}
+      end
+      sleep(2.3)
+    end
+
     def destroy
           logout!
           render json: {
