@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
     has_secure_password
+    has_one_attached :avatar
     has_many :drivers
     validates :username, presence: true
     validates :username, uniqueness: true
