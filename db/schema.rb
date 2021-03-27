@@ -13,8 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_12_12_151348) do
 
   create_table "clients", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
+    t.string "full_name"
     t.float "pay_rate"
     t.integer "driver_id"
     t.datetime "created_at", precision: 6, null: false
@@ -24,14 +23,24 @@ ActiveRecord::Schema.define(version: 2020_12_12_151348) do
   create_table "drivers", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "punches", force: :cascade do |t|
     t.integer "client_id"
-    t.datetime "clock_in"
-    t.datetime "clock_out"
+    t.string "clock_in"
+    t.string "clock_out"
+    t.string "date"
+    t.string "month_day"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
 end
