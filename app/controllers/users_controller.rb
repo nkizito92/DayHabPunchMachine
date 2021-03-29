@@ -19,6 +19,7 @@ class UsersController < ApplicationController
 
     def update
         user = User.find_by(username: user_params[:username])
+        
         if user && user.authenticate(user_params[:old_password])
             user.update(user_params)
         end 
