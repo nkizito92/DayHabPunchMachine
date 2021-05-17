@@ -27,7 +27,7 @@ class PunchesController < ApplicationController
         end
         if !punched.nil?
             render json: {punched: punched, message: {success: "#{Time.new.strftime("%l:%M %p")} #{client.full_name} #{clocked}", error: ""}}, include: [:client]
-        else 
+        else
             render json: {punched: punched, message: {success: "", error: "Client Doesn't Exist!"}}, include: [:client]
         end
     end 
@@ -41,7 +41,7 @@ class PunchesController < ApplicationController
     def destroy 
         punch = Punch.find_by_id(params[:id])
         punch.delete if !punch.nil?
-        render json: punch, include: [:client]
+        render json: {punch: punch, message: {success: "Time Mark Deleted", error: "Client Doesn't Exist!"}}, include: [:client]
     end
 
     private
