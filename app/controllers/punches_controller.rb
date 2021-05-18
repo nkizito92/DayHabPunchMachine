@@ -35,13 +35,13 @@ class PunchesController < ApplicationController
     def update
         punch = Punch.find_by_id(params[:id])
         punch.update(punch_params)
-        render json: punch, include: [:client]
+        render json: {punch: punch, message: {success: "Time Mark Updated", error: ""}}, include: [:client]
     end
 
     def destroy 
         punch = Punch.find_by_id(params[:id])
         punch.delete if !punch.nil?
-        render json: {punch: punch, message: {success: "Time Mark Deleted", error: "Client Doesn't Exist!"}}, include: [:client]
+        render json: {punch: punch, message: {success: "Time Mark Deleted", error: ""}}, include: [:client]
     end
 
     private
